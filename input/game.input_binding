@@ -7,7 +7,7 @@ key_trigger { input: KEY_W action: "jump" }
 key_trigger { input: KEY_S action: "slide" }
 key_trigger { input: KEY_DOWN action: "slide" }
 key_trigger { input: KEY_LSHIFT action: "slide" }
-key_trigger { input: KEY_ESCAPE action: "pause" }
+key_trigger { input: KEY_ESC action: "pause" }
 key_trigger { input: KEY_R action: "restart" }
 key_trigger { input: KEY_M action: "menu" }
 key_trigger { input: KEY_BACKSPACE action: "backspace" }
