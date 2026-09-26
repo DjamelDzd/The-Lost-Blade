@@ -126,10 +126,12 @@ jobs:
             )
           fi
 
+          bundle_output="$RUNNER_TEMP/the-lost-blade-android"
           echo "Building ${build_type} APK with Defold ${DEFOLD_VERSION}."
+          bob_args+=(--bundle-output "$bundle_output")
           java -jar bob.jar "${bob_args[@]}" resolve build bundle
 
-          apk_path="$(find build/android -type f -name '*.apk' -print -quit)"
+          apk_path="$(find "$bundle_output" -type f -name '*.apk' -print -quit)"
           if [[ -z "$apk_path" ]]; then
             echo "Bob finished without producing an APK." >&2
             exit 1
