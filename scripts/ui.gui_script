@@ -1,0 +1,60 @@
+local function v(node,visible) gui.set_visible(gui.get_node(node),visible) end
+local function menu_visible(on)
+    for _,n in ipairs({"title_plate","title","play_bg","play","codes_bg","code","credits_bg","credits","tagline","creator"}) do v(n,on) end
+end
+local function game_visible(on)
+    for _,n in ipairs({"left_bg","left","right_bg","right","slide_bg","slide","jump_bg","jump","pause_bg","pause","hud"}) do v(n,on) end
+end
+function init(self)
+    msg.post(".","acquire_input_focus"); self.screen="menu"; self.code=""; menu_visible(true); game_visible(false)
+    for _,n in ipairs({"panel","panel_title","panel_text","panel_help"}) do v(n,false) end
+end
+function on_input(self,action_id,action)
+    if action_id==hash("touch") and action.pressed then
+        if self.screen=="menu" then
+            if gui.pick_node(gui.get_node("play_bg"),action.x,action.y) then msg.post("/controller","start_game"); return true end
+            if gui.pick_node(gui.get_node("code"),action.x,action.y) or gui.pick_node(gui.get_node("codes_bg"),action.x,action.y) then
+                self.code=""; gui.set_text(gui.get_node("code"),"CODE: "); gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT,true); return true
+            end
+            if gui.pick_node(gui.get_node("credits_bg"),action.x,action.y) then
+                gui.set_text(gui.get_node("tagline"),"GAME DESIGN / CODE / DIRECTION — DJAMEL"); return true
+            end
+        elseif self.screen=="game" then
+            if gui.pick_node(gui.get_node("left_bg"),action.x,action.y) then msg.post("/controller","move_left",{down=true}); return true end
+            if gui.pick_node(gui.get_node("right_bg"),action.x,action.y) then msg.post("/controller","move_right",{down=true}); return true end
+            if gui.pick_node(gui.get_node("jump_bg"),action.x,action.y) then msg.post("/controller","jump",{down=true}); return true end
+            if gui.pick_node(gui.get_node("slide_bg"),action.x,action.y) then msg.post("/controller","slide",{down=true}); return true end
+            if gui.pick_node(gui.get_node("pause_bg"),action.x,action.y) then msg.post("/controller","pause"); return true end
+        elseif self.screen=="ending" then msg.post("/controller","menu"); return true end
+    elseif action_id==hash("touch") and action.released and self.screen=="game" then
+        msg.post("/controller","move_left",{down=false}); msg.post("/controller","move_right",{down=false})
+    elseif action_id==hash("text") and self.screen=="menu" then
+        if #self.code<24 then
+            self.code=self.code..action.text; gui.set_text(gui.get_node("code"),"CODE: "..self.code)
+            if self.code=="Djamelistheking" then gui.hide_keyboard(); msg.post("/controller","code",{text=self.code}) end
+        end
+    elseif action_id==hash("backspace") and self.screen=="menu" then
+        if #self.code>0 then self.code=self.code:sub(1,-2); gui.set_text(gui.get_node("code"),"CODE: "..self.code) end
+    elseif action_id==hash("enter") and self.screen=="menu" then gui.hide_keyboard(); msg.post("/controller","code",{text=self.code})
+    elseif action_id==hash("menu") and action.pressed then msg.post("/controller","menu")
+    elseif action_id==hash("restart") and action.pressed then msg.post("/controller","restart")
+    elseif action_id==hash("pause") and action.pressed then msg.post("/controller","pause")
+    end
+end
+function on_message(self,id,message,sender)
+    if id==hash("screen") then
+        self.screen=message.screen; menu_visible(message.screen=="menu"); game_visible(message.screen=="game")
+        for _,n in ipairs({"panel","panel_title","panel_text","panel_help"}) do v(n,false) end
+        if message.screen=="game" then gui.set_text(gui.get_node("hud"),message.name.."   •   LIVES: "..tostring(message.lives).."   •   ROLL: S") end
+    elseif id==hash("hud") then gui.set_text(gui.get_node("hud"),message.text)
+    elseif id==hash("cutscene") then
+        v("panel",message.visible); v("panel_title",message.visible); v("panel_text",message.visible)
+        if message.visible then gui.set_text(gui.get_node("panel_title"),"THE LOST BLADE"); gui.set_text(gui.get_node("panel_text"),message.text) end
+    elseif id==hash("paused") then
+        v("panel",message.paused); v("panel_title",message.paused); v("panel_text",message.paused); v("panel_help",message.paused)
+        if message.paused then gui.set_text(gui.get_node("panel_title"),"PAUSED"); gui.set_text(gui.get_node("panel_text"),"The wind keeps moving. You do not have to."); gui.set_text(gui.get_node("panel_help"),"R = restart    M = menu") end
+    elseif id==hash("ending") then
+        self.screen="ending"; menu_visible(false); game_visible(false); v("panel",true); v("panel_title",true); v("panel_text",true); v("panel_help",false)
+        gui.set_text(gui.get_node("panel_title"),"THE LOST BLADE"); gui.set_text(gui.get_node("panel_text"),message.text)
+    end
+end

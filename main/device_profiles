@@ -1,0 +1,4 @@
+[device]
+name = "landscape-phones"
+resolution = 1280x720
+scale = 1

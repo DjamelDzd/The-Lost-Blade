@@ -1,0 +1,17 @@
+name: "game"
+key_trigger { key: KEY_A action: "left" }
+key_trigger { key: KEY_D action: "right" }
+key_trigger { key: KEY_LEFT action: "left" }
+key_trigger { key: KEY_RIGHT action: "right" }
+key_trigger { key: KEY_SPACE action: "jump" }
+key_trigger { key: KEY_W action: "jump" }
+key_trigger { key: KEY_S action: "slide" }
+key_trigger { key: KEY_DOWN action: "slide" }
+key_trigger { key: KEY_SHIFT action: "slide" }
+key_trigger { key: KEY_ESCAPE action: "pause" }
+key_trigger { key: KEY_R action: "restart" }
+key_trigger { key: KEY_M action: "menu" }
+key_trigger { key: KEY_BACKSPACE action: "backspace" }
+key_trigger { key: KEY_ENTER action: "enter" }
+mouse_trigger { input: MOUSE_BUTTON_LEFT action: "touch" }
+text_trigger { input: TEXT action: "text" }

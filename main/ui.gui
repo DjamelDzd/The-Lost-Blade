@@ -1,0 +1,240 @@
+script: "/scripts/ui.gui_script"
+fonts {
+  name: "default"
+  font: "/builtins/fonts/default.font"
+}
+
+nodes {
+  position { x: 640.0 y: 620.0 }
+  size { x: 1120.0 y: 88.0 }
+  color { x: 0.05 y: 0.04 z: 0.035 w: 0.92 }
+  type: TYPE_BOX
+  id: "title_plate"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 630.0 }
+  size { x: 1000.0 y: 80.0 }
+  text: "THE LOST BLADE"
+  font: "default"
+  type: TYPE_TEXT
+  id: "title"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 505.0 }
+  size { x: 390.0 y: 66.0 }
+  color { x: 0.11 y: 0.07 z: 0.045 w: 0.95 }
+  type: TYPE_BOX
+  id: "play_bg"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 505.0 }
+  size { x: 370.0 y: 50.0 }
+  text: "BEGIN THE DESCENT"
+  font: "default"
+  type: TYPE_TEXT
+  id: "play"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 420.0 }
+  size { x: 390.0 y: 58.0 }
+  color { x: 0.08 y: 0.065 z: 0.05 w: 0.92 }
+  type: TYPE_BOX
+  id: "codes_bg"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 420.0 }
+  size { x: 370.0 y: 48.0 }
+  text: "ENTER CODE"
+  font: "default"
+  type: TYPE_TEXT
+  id: "code"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 345.0 }
+  size { x: 390.0 y: 58.0 }
+  color { x: 0.08 y: 0.065 z: 0.05 w: 0.92 }
+  type: TYPE_BOX
+  id: "credits_bg"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 345.0 }
+  size { x: 370.0 y: 48.0 }
+  text: "CREDITS"
+  font: "default"
+  type: TYPE_TEXT
+  id: "credits"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 255.0 }
+  size { x: 980.0 y: 54.0 }
+  text: "A fallen blade • a silent descent • a legend waiting below"
+  font: "default"
+  type: TYPE_TEXT
+  id: "tagline"
+  pivot: PIVOT_CENTER
+}
+nodes {
+  position { x: 640.0 y: 95.0 }
+  size { x: 1000.0 y: 60.0 }
+  text: "CREATED BY DJAMEL"
+  font: "default"
+  type: TYPE_TEXT
+  id: "creator"
+  pivot: PIVOT_CENTER
+}
+
+nodes {
+  position { x: 115.0 y: 95.0 }
+  size { x: 170.0 y: 105.0 }
+  color { x: 0.06 y: 0.055 z: 0.045 w: 0.78 }
+  type: TYPE_BOX
+  id: "left_bg"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 115.0 y: 95.0 }
+  size { x: 155.0 y: 82.0 }
+  text: "◀"
+  font: "default"
+  type: TYPE_TEXT
+  id: "left"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 305.0 y: 95.0 }
+  size { x: 170.0 y: 105.0 }
+  color { x: 0.06 y: 0.055 z: 0.045 w: 0.78 }
+  type: TYPE_BOX
+  id: "right_bg"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 305.0 y: 95.0 }
+  size { x: 155.0 y: 82.0 }
+  text: "▶"
+  font: "default"
+  type: TYPE_TEXT
+  id: "right"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 1010.0 y: 95.0 }
+  size { x: 170.0 y: 105.0 }
+  color { x: 0.06 y: 0.055 z: 0.045 w: 0.78 }
+  type: TYPE_BOX
+  id: "slide_bg"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 1010.0 y: 95.0 }
+  size { x: 150.0 y: 82.0 }
+  text: "ROLL"
+  font: "default"
+  type: TYPE_TEXT
+  id: "slide"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 1170.0 y: 105.0 }
+  size { x: 170.0 y: 125.0 }
+  color { x: 0.06 y: 0.055 z: 0.045 w: 0.82 }
+  type: TYPE_BOX
+  id: "jump_bg"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 1170.0 y: 105.0 }
+  size { x: 150.0 y: 105.0 }
+  text: "JUMP"
+  font: "default"
+  type: TYPE_TEXT
+  id: "jump"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 1170.0 y: 650.0 }
+  size { x: 120.0 y: 52.0 }
+  color { x: 0.06 y: 0.055 z: 0.045 w: 0.82 }
+  type: TYPE_BOX
+  id: "pause_bg"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 1170.0 y: 650.0 }
+  size { x: 110.0 y: 44.0 }
+  text: "PAUSE"
+  font: "default"
+  type: TYPE_TEXT
+  id: "pause"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 640.0 y: 682.0 }
+  size { x: 1050.0 y: 45.0 }
+  text: ""
+  font: "default"
+  type: TYPE_TEXT
+  id: "hud"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+
+nodes {
+  position { x: 640.0 y: 360.0 }
+  size { x: 920.0 y: 300.0 }
+  color { x: 0.025 y: 0.022 z: 0.02 w: 0.94 }
+  type: TYPE_BOX
+  id: "panel"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 640.0 y: 465.0 }
+  size { x: 820.0 y: 70.0 }
+  text: "PAUSED"
+  font: "default"
+  type: TYPE_TEXT
+  id: "panel_title"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 640.0 y: 355.0 }
+  size { x: 780.0 y: 115.0 }
+  text: "Tap PAUSE again to resume"
+  font: "default"
+  type: TYPE_TEXT
+  id: "panel_text"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+nodes {
+  position { x: 640.0 y: 250.0 }
+  size { x: 760.0 y: 55.0 }
+  text: "R = restart    M = menu"
+  font: "default"
+  type: TYPE_TEXT
+  id: "panel_help"
+  pivot: PIVOT_CENTER
+  visible: false
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT
