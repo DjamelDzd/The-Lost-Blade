@@ -27,7 +27,7 @@ env:
 jobs:
   android:
     name: Build Android APK
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Check out project
@@ -39,8 +39,37 @@ jobs:
           distribution: temurin
           java-version: "25"
 
-      - name: Set up Android command-line tools
-        uses: android-actions/setup-android@v3
+      - name: Install Defold Android SDK dependencies
+        run: |
+          set -euo pipefail
+
+          android_sdk="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          if [[ -z "$android_sdk" || ! -d "$android_sdk" ]]; then
+            echo "GitHub's Android SDK was not found." >&2
+            exit 1
+          fi
+
+          sdkmanager="$(find "$android_sdk/cmdline-tools" -type f -path '*/bin/sdkmanager' -print -quit 2>/dev/null || true)"
+          if [[ -z "$sdkmanager" ]]; then
+            sdkmanager="$(command -v sdkmanager || true)"
+          fi
+          if [[ -z "$sdkmanager" ]]; then
+            echo "Android sdkmanager was not found in the runner image." >&2
+            exit 1
+          fi
+
+          yes | "$sdkmanager" --sdk_root="$android_sdk" --licenses >/dev/null || true
+          "$sdkmanager" --sdk_root="$android_sdk" \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.1.0" \
+            "ndk;25.2.9519653"
+
+          echo "ANDROID_HOME=$android_sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$android_sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=$android_sdk/ndk/25.2.9519653" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_ROOT=$android_sdk/ndk/25.2.9519653" >> "$GITHUB_ENV"
+          echo "$android_sdk/platform-tools" >> "$GITHUB_PATH"
 
       - name: Download official Defold Bob
         run: |
@@ -107,14 +136,14 @@ jobs:
           fi
 
           mkdir -p dist
-          cp "$apk_path" dist/The-Lost-Blade-Android.apk
+          cp "$apk_path" "dist/The-Lost-Blade-Android-${build_type}.apk"
           printf 'build_type=%s\n' "$build_type" >> "$GITHUB_OUTPUT"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: The-Lost-Blade-Android-${{ steps.build.outputs.build_type }}
-          path: dist/The-Lost-Blade-Android.apk
+          name: The-Lost-Blade-Android-${{ steps.build.outputs.build_type }}.apk
+          path: dist/The-Lost-Blade-Android-${{ steps.build.outputs.build_type }}.apk
           if-no-files-found: error
           retention-days: 30
 
@@ -122,5 +151,5 @@ jobs:
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/The-Lost-Blade-Android.apk
+          files: dist/The-Lost-Blade-Android-${{ steps.build.outputs.build_type }}.apk
           fail_on_unmatched_files: true
