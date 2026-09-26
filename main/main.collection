@@ -2,139 +2,140 @@ name: "main"
 scale_along_z: 0
 embedded_instances {
   id: "controller"
-  data: "components {
-  id: "script"
-  component: "/scripts/main.script"
-}
-components {
-  id: "player_factory"
-  component: "/main/player.factory"
-}
-components {
-  id: "platform_factory"
-  component: "/main/platform.factory"
-}
-components {
-  id: "dark_platform_factory"
-  component: "/main/dark_platform.factory"
-}
-components {
-  id: "hazard_factory"
-  component: "/main/hazard.factory"
-}
-components {
-  id: "checkpoint_factory"
-  component: "/main/checkpoint.factory"
-}
-components {
-  id: "sword_factory"
-  component: "/main/sword.factory"
-}
-components {
-  id: "carried_sword_factory"
-  component: "/main/carried_sword.factory"
-}
-components {
-  id: "pixel_fx_factory"
-  component: "/main/pixel_fx.factory"
-}
-components {
-  id: "skull_factory"
-  component: "/main/skull.factory"
-}
-components {
-  id: "coin_factory"
-  component: "/main/coin.factory"
-}
-components {
-  id: "menu_music"
-  component: "/sound/menu_music.wav"
-  data: "looping: true\ngain: 0.18"
-}
-components {
-  id: "level1_music"
-  component: "/sound/level1_music.wav"
-  data: "looping: true\ngain: 0.18"
-}
-components {
-  id: "level2_music"
-  component: "/sound/level2_music.wav"
-  data: "looping: true\ngain: 0.18"
-}
-components {
-  id: "level3_music"
-  component: "/sound/level3_music.wav"
-  data: "looping: true\ngain: 0.18"
-}
-components {
-  id: "jump"
-  component: "/sound/jump.wav"
-  data: "looping: false\ngain: 0.5"
-}
-components {
-  id: "checkpoint"
-  component: "/sound/checkpoint.wav"
-  data: "looping: false\ngain: 0.5"
-}
-components {
-  id: "death"
-  component: "/sound/death.wav"
-  data: "looping: false\ngain: 0.5"
-}
-components {
-  id: "collect"
-  component: "/sound/collect.wav"
-  data: "looping: false\ngain: 0.5"
-}
-components {
-  id: "sword"
-  component: "/sound/sword.wav"
-  data: "looping: false\ngain: 0.5"
-}
-components {
-  id: "slide"
-  component: "/sound/slide.wav"
-  data: "looping: false\ngain: 0.35"
-}
-components {
-  id: "land"
-  component: "/sound/land.wav"
-  data: "looping: false\ngain: 0.35"
-}
-components {
-  id: "secret"
-  component: "/sound/secret.wav"
-  data: "looping: false\ngain: 0.45"
-}
-components {
-  id: "button"
-  component: "/sound/button.wav"
-  data: "looping: false\ngain: 0.25"
-}
-
-components {
-  id: "menu_bg_factory"
-  component: "/main/menu_bg.factory"
-}
-components {
-  id: "level1_bg_factory"
-  component: "/main/level1_bg.factory"
-}
-components {
-  id: "level2_bg_factory"
-  component: "/main/level2_bg.factory"
-}
-components {
-  id: "level3_bg_factory"
-  component: "/main/level3_bg.factory"
-}"
+  data: "components {\n"
+  "  id: \"script\"\n"
+  "  component: \"/scripts/main.script\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"player_factory\"\n"
+  "  component: \"/main/player.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"platform_factory\"\n"
+  "  component: \"/main/platform.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"dark_platform_factory\"\n"
+  "  component: \"/main/dark_platform.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"hazard_factory\"\n"
+  "  component: \"/main/hazard.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"checkpoint_factory\"\n"
+  "  component: \"/main/checkpoint.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"sword_factory\"\n"
+  "  component: \"/main/sword.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"carried_sword_factory\"\n"
+  "  component: \"/main/carried_sword.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"pixel_fx_factory\"\n"
+  "  component: \"/main/pixel_fx.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"skull_factory\"\n"
+  "  component: \"/main/skull.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"coin_factory\"\n"
+  "  component: \"/main/coin.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"menu_bg_factory\"\n"
+  "  component: \"/main/menu_bg.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"level1_bg_factory\"\n"
+  "  component: \"/main/level1_bg.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"level2_bg_factory\"\n"
+  "  component: \"/main/level2_bg.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"level3_bg_factory\"\n"
+  "  component: \"/main/level3_bg.factory\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"menu_music\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/menu_music.wav\\\"\\nlooping: 1\\ngain: 0.18\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"level1_music\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/level1_music.wav\\\"\\nlooping: 1\\ngain: 0.18\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"level2_music\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/level2_music.wav\\\"\\nlooping: 1\\ngain: 0.18\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"level3_music\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/level3_music.wav\\\"\\nlooping: 1\\ngain: 0.18\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"jump\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/jump.wav\\\"\\nlooping: 0\\ngain: 0.5\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"checkpoint\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/checkpoint.wav\\\"\\nlooping: 0\\ngain: 0.5\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"death\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/death.wav\\\"\\nlooping: 0\\ngain: 0.5\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"collect\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/collect.wav\\\"\\nlooping: 0\\ngain: 0.5\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"sword\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/sword.wav\\\"\\nlooping: 0\\ngain: 0.5\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"slide\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/slide.wav\\\"\\nlooping: 0\\ngain: 0.35\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"land\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/land.wav\\\"\\nlooping: 0\\ngain: 0.35\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"secret\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/secret.wav\\\"\\nlooping: 0\\ngain: 0.45\\n\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"button\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/sound/button.wav\\\"\\nlooping: 0\\ngain: 0.25\\n\"\n"
+  "}\n"
+  ""
   position { x: 0.0 y: 0.0 z: 0.0 }
 }
 embedded_instances {
   id: "ui"
-  data: "components {
-  id: "gui"
-  component: "/main/ui.gui"
-}"
+  data: "components {\n"
+  "  id: \"gui\"\n"
+  "  component: \"/main/ui.gui\"\n"
+  "}\n"
+  ""
   position { x: 0.0 y: 0.0 z: 0.0 }
 }

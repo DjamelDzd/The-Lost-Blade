@@ -71,51 +71,6 @@ jobs:
           echo "ANDROID_NDK_ROOT=$android_sdk/ndk/25.2.9519653" >> "$GITHUB_ENV"
           echo "$android_sdk/platform-tools" >> "$GITHUB_PATH"
 
-      - name: Normalize collection data for Bob
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-
-          path = Path("main/main.collection")
-          lines = path.read_text(encoding="utf-8").splitlines()
-          output = []
-          normalized = 0
-          index = 0
-
-          while index < len(lines):
-              line = lines[index]
-              match = re.match(r'^(\s*)data: "components \{$', line)
-              if not match:
-                  output.append(line)
-                  index += 1
-                  continue
-
-              payload = ["components {"]
-              index += 1
-              while index < len(lines) and lines[index].strip() != '}"':
-                  payload.append(lines[index])
-                  index += 1
-
-              if index == len(lines):
-                  raise SystemExit("Unterminated multiline collection data block")
-
-              payload.append(lines[index][:-1])
-              escaped = "\\n".join(
-                  part.replace("\\", "\\\\").replace('"', '\\"')
-                  for part in payload
-              )
-              output.append(f'{match.group(1)}data: "{escaped}"')
-              normalized += 1
-              index += 1
-
-          if normalized == 0:
-              raise SystemExit("No multiline collection data blocks were found")
-          path.write_text("\n".join(output) + "\n", encoding="utf-8")
-          print(f"Normalized {normalized} collection data block(s) for Bob.")
-          PY
-
       - name: Download official Defold Bob
         run: |
           set -euo pipefail
