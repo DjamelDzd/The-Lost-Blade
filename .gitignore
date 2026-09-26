@@ -6,3 +6,10 @@ build/
 Thumbs.db
 *.keystore
 *.jks
+zipFile.zip
+
+# Replit-only workspace files
+.replit
+.cache/
+.local/
+.agents/

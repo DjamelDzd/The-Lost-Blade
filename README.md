@@ -4,6 +4,14 @@
 
 A horizontal, medieval pixel-platformer prototype built for Defold and prepared for Android.
 
+## Open in Defold
+
+1. Install Defold 1.13.1 or a newer stable editor.
+2. Open this repository folder in Defold and select `game.project`.
+3. Use **Project → Build** for a desktop debug build, or **Project → Bundle → Android Application** for a phone build.
+
+The project is fixed to a 1280×720 landscape design. Dynamic orientation is disabled so a phone does not rotate the game into portrait mode. Defold's fixed-fit projection and safe-area-aware GUI keep the 16:9 design usable on wider phone aspect ratios.
+
 ## What changed in v1.1
 
 ### Character controller
@@ -91,6 +99,34 @@ Version: `1.1.0` / version code `2`
 
 The project is source-ready for a Defold Android build. A signed release APK still needs the normal Defold/Android SDK + signing step on the machine/CI that performs the build.
 
+## GitHub Actions Android builds
+
+The repository includes `.github/workflows/android.yml`.
+
+- **Push to `main`**: builds a debug APK automatically.
+- **Manual build**: open **GitHub → Actions → Android Build → Run workflow**, then choose `debug` or `release`.
+- **GitHub Release**: publishing a release/tag runs the workflow and attaches `The-Lost-Blade-Android.apk` to that release.
+
+The workflow downloads the pinned official Defold Bob builder (`1.13.1`), uses Java 25, builds for `arm64-android`, and uploads the APK as an Actions artifact. A release request without signing secrets safely falls back to a debug APK; it never claims to have produced a signed release APK.
+
+For a signed release build, add these GitHub Actions secrets:
+
+- `ANDROID_KEYSTORE_BASE64` — base64-encoded `.keystore` file
+- `ANDROID_KEYSTORE_PASSWORD` — keystore password
+- `ANDROID_KEY_ALIAS` — signing key alias
+- `ANDROID_KEY_PASSWORD` — signing key password
+
+Do not commit the keystore or any of these values. Debug builds do not require signing secrets.
+
+### Build an APK from GitHub
+
+1. Push the project to GitHub.
+2. Open the repository's **Actions** tab and select **Android Build**.
+3. Select **Run workflow**, choose `debug`, and run it.
+4. Open the completed workflow run and download the `The-Lost-Blade-Android-debug` artifact.
+
+For a signed distributable build, configure the four secrets first, then choose `release`. To publish the APK on a release page, create and publish a tag-backed GitHub Release such as `v1.1.0`. The release workflow uploads the APK only after Bob completes successfully.
+
 ## Project structure
 
 - `main/` — collections, factories and game objects
@@ -98,6 +134,7 @@ The project is source-ready for a Defold Android build. A signed release APK sti
 - `assets/` — pixel art and animation frames
 - `sound/` — music and SFX
 - `input/` — controls
+- `.github/workflows/android.yml` — reproducible debug/release Android builds
 
 ## Important implementation note
 

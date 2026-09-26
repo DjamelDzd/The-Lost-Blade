@@ -1,0 +1,126 @@
+name: Android Build
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: APK build variant
+        required: true
+        default: debug
+        type: choice
+        options:
+          - debug
+          - release
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+env:
+  DEFOLD_VERSION: "1.13.1"
+
+jobs:
+  android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Set up Android command-line tools
+        uses: android-actions/setup-android@v3
+
+      - name: Download official Defold Bob
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 \
+            --output bob.jar \
+            "https://github.com/defold/defold/releases/download/${DEFOLD_VERSION}/bob.jar"
+
+      - name: Build APK
+        id: build
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          build_type=debug
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            build_type=release
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            build_type="${{ inputs.build_type }}"
+          fi
+
+          keystore_path="$RUNNER_TEMP/the-lost-blade-release.keystore"
+          if [[ "$build_type" == "release" ]]; then
+            if [[ -z "$ANDROID_KEYSTORE_BASE64" ||
+                  -z "$ANDROID_KEYSTORE_PASSWORD" ||
+                  -z "$ANDROID_KEY_ALIAS" ||
+                  -z "$ANDROID_KEY_PASSWORD" ]]; then
+              echo "Release signing secrets are incomplete; building a debug APK instead."
+              build_type=debug
+            else
+              printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$keystore_path"
+              trap 'rm -f "$keystore_path"' EXIT
+            fi
+          fi
+
+          bob_args=(
+            --platform arm64-android
+            --variant "$build_type"
+            --archive
+            --bundle-format apk
+            --bundle-output build/android
+          )
+
+          if [[ "$build_type" == "release" ]]; then
+            bob_args+=(
+              --keystore "$keystore_path"
+              --keystore-pass "$ANDROID_KEYSTORE_PASSWORD"
+              --keystore-alias "$ANDROID_KEY_ALIAS"
+              --key-pass "$ANDROID_KEY_PASSWORD"
+            )
+          fi
+
+          echo "Building ${build_type} APK with Defold ${DEFOLD_VERSION}."
+          java -jar bob.jar "${bob_args[@]}" resolve build bundle
+
+          apk_path="$(find build/android -type f -name '*.apk' -print -quit)"
+          if [[ -z "$apk_path" ]]; then
+            echo "Bob finished without producing an APK." >&2
+            exit 1
+          fi
+
+          mkdir -p dist
+          cp "$apk_path" dist/The-Lost-Blade-Android.apk
+          printf 'build_type=%s\n' "$build_type" >> "$GITHUB_OUTPUT"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: The-Lost-Blade-Android-${{ steps.build.outputs.build_type }}
+          path: dist/The-Lost-Blade-Android.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Attach APK to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/The-Lost-Blade-Android.apk
+          fail_on_unmatched_files: true
