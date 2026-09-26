@@ -114,7 +114,6 @@ jobs:
             --variant "$build_type"
             --archive
             --bundle-format apk
-            --bundle-output build/android
           )
 
           if [[ "$build_type" == "release" ]]; then
